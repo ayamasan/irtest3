@@ -20,7 +20,7 @@ input.onButtonPressed(Button.B, function () {
             値 = pins.digitalReadPin(DigitalPin.P0)
         }
     }
-    for (let カウンター = 0; カウンター <= 送信データ.length; カウンター++) {
+    for (let カウンター = 0; カウンター <= IRデータ数; カウンター++) {
         for (let index = 0; index < 送信データ[カウンター]; index++) {
             pins.digitalWritePin(DigitalPin.P14, 1)
             for (let index = 0; index < 3; index++) {
@@ -115,13 +115,14 @@ function 送信データ作成 () {
  * ループ回数12＝28us、36KHz
  */
 let 送信データ: number[] = []
-let _3T: number = []
-let _1T: number = []
-let ヘッダー2長: number = []
-let ヘッダー1長: number = []
-let 周波数長: number = []
+let _3T = 0
+let _1T = 0
+let ヘッダー2長 = 0
+let ヘッダー1長 = 0
+let 周波数長 = 0
+let IRデータ数 = 0
 let IRデータ: string[] = []
-let 値: number = []
+let 値 = 0
 basic.showIcon(IconNames.Square)
 値 = 0
 pins.digitalWritePin(DigitalPin.P14, 0)
@@ -133,6 +134,7 @@ IRデータ = [
 "8",
 "0"
 ]
+IRデータ数 = 20
 周波数長 = 6
 ヘッダー1長 = 96
 ヘッダー2長 = 24
