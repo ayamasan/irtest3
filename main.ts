@@ -19,6 +19,7 @@ input.onButtonPressed(Button.B, function () {
             値 = pins.digitalReadPin(DigitalPin.P0)
         }
     }
+    basic.showNumber(送信データ.length)
     for (let カウンター = 0; カウンター <= 送信データ.length; カウンター++) {
         for (let index = 0; index < 送信データ[カウンター]; index++) {
             pins.digitalWritePin(DigitalPin.P14, 1)
