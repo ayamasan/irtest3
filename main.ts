@@ -1,7 +1,6 @@
-let カウンター = 0
-basic.showIcon(IconNames.Square)
-let 値 = 0
-pins.digitalWritePin(DigitalPin.P14, 0)
+input.onButtonPressed(Button.B, function () {
+	
+})
 /**
  * IR送信テスト
  * 
@@ -11,6 +10,23 @@ pins.digitalWritePin(DigitalPin.P14, 0)
  * 
  * ループ回数12＝28us、36KHz
  */
+let カウンター = 0
+basic.showIcon(IconNames.Square)
+let 値 = 0
+pins.digitalWritePin(DigitalPin.P14, 0)
+let IRデータ = [
+"A",
+"8",
+"B",
+"4",
+"8",
+"0"
+]
+let 周波数長 = 6
+let ヘッダー1長 = 0
+let ヘッダー2長 = 0
+let _1T = 0
+let _3T = 0
 basic.forever(function () {
     for (let index = 0; index < 10; index++) {
         pins.digitalWritePin(DigitalPin.P14, 1)
@@ -18,7 +34,7 @@ basic.forever(function () {
             カウンター = pins.digitalReadPin(DigitalPin.P0)
         }
         pins.digitalWritePin(DigitalPin.P14, 0)
-        for (let index = 0; index < 7; index++) {
+        for (let index = 0; index < 周波数長; index++) {
             カウンター = pins.digitalReadPin(DigitalPin.P0)
         }
     }
