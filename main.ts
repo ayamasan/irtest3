@@ -1,3 +1,24 @@
+function モード設定 (数値: number) {
+    if (数値 == 1) {
+        周波数長 = 7
+        ヘッダー1長 = 345
+        ヘッダー2長 = 172
+        _1T = 21
+        _3T = 64
+    } else if (数値 == 2) {
+        周波数長 = 7
+        ヘッダー1長 = 130
+        ヘッダー2長 = 65
+        _1T = 16
+        _3T = 49
+    } else {
+        周波数長 = 4
+        ヘッダー1長 = 96
+        ヘッダー2長 = 24
+        _1T = 24
+        _3T = 72
+    }
+}
 input.onButtonPressed(Button.B, function () {
     送信データ作成()
     for (let index = 0; index < ヘッダー1長; index++) {
@@ -114,12 +135,12 @@ function 送信データ作成 () {
  * 
  * ループ回数12＝28us、36KHz
  */
-let 送信データ: number[] = []
 let _3T = 0
 let _1T = 0
 let ヘッダー2長 = 0
 let ヘッダー1長 = 0
 let 周波数長 = 0
+let 送信データ: number[] = []
 let IRデータ数 = 0
 let IRデータ: string[] = []
 let 値 = 0
@@ -128,16 +149,14 @@ basic.showIcon(IconNames.Square)
 pins.digitalWritePin(DigitalPin.P14, 0)
 IRデータ = [
 "A",
-"8",
-"B",
+"2",
+"3",
+"D",
 "4",
 "8",
-"0"
+"B",
+"7"
 ]
-IRデータ数 = 20
-周波数長 = 6
-ヘッダー1長 = 96
-ヘッダー2長 = 24
-_1T = 24
-_3T = 72
+IRデータ数 = 32
 送信データ = []
+let IRモード = 1
