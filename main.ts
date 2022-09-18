@@ -2,43 +2,42 @@ input.onButtonPressed(Button.B, function () {
     for (let index = 0; index < ヘッダー1長; index++) {
         pins.digitalWritePin(DigitalPin.P14, 1)
         for (let index = 0; index < 3; index++) {
-            カウンター = pins.digitalReadPin(DigitalPin.P0)
+            値 = pins.digitalReadPin(DigitalPin.P0)
         }
         pins.digitalWritePin(DigitalPin.P14, 0)
         for (let index = 0; index < 周波数長; index++) {
-            カウンター = pins.digitalReadPin(DigitalPin.P0)
+            値 = pins.digitalReadPin(DigitalPin.P0)
         }
     }
     for (let index = 0; index < ヘッダー2長; index++) {
         pins.digitalWritePin(DigitalPin.P14, 0)
         for (let index = 0; index < 3; index++) {
-            カウンター = pins.digitalReadPin(DigitalPin.P0)
+            値 = pins.digitalReadPin(DigitalPin.P0)
         }
         pins.digitalWritePin(DigitalPin.P14, 0)
         for (let index = 0; index < 周波数長; index++) {
-            カウンター = pins.digitalReadPin(DigitalPin.P0)
+            値 = pins.digitalReadPin(DigitalPin.P0)
         }
     }
     for (let カウンター = 0; カウンター <= 送信データ.length; カウンター++) {
-        let 配列: number[] = []
-        for (let index = 0; index < 配列[カウンター]; index++) {
+        for (let index = 0; index < 送信データ[カウンター]; index++) {
             pins.digitalWritePin(DigitalPin.P14, 1)
             for (let index = 0; index < 3; index++) {
-                カウンター = pins.digitalReadPin(DigitalPin.P0)
+                値 = pins.digitalReadPin(DigitalPin.P0)
             }
             pins.digitalWritePin(DigitalPin.P14, 0)
             for (let index = 0; index < 周波数長; index++) {
-                カウンター = pins.digitalReadPin(DigitalPin.P0)
+                値 = pins.digitalReadPin(DigitalPin.P0)
             }
         }
         for (let index = 0; index < _1T; index++) {
             pins.digitalWritePin(DigitalPin.P14, 0)
             for (let index = 0; index < 3; index++) {
-                カウンター = pins.digitalReadPin(DigitalPin.P0)
+                値 = pins.digitalReadPin(DigitalPin.P0)
             }
             pins.digitalWritePin(DigitalPin.P14, 0)
             for (let index = 0; index < 周波数長; index++) {
-                カウンター = pins.digitalReadPin(DigitalPin.P0)
+                値 = pins.digitalReadPin(DigitalPin.P0)
             }
         }
     }
@@ -114,7 +113,6 @@ function 送信データ作成 () {
  * 
  * ループ回数12＝28us、36KHz
  */
-let カウンター: number = []
 let 送信データ: number[] = []
 let _3T: number = []
 let _1T: number = []
