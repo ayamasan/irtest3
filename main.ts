@@ -1,94 +1,100 @@
 function モード設定 (数値: number) {
     if (数値 == 1) {
-        周波数長 = 7
+        周波数2長 = 7
         ヘッダー1長 = 345
         ヘッダー2長 = 172
         _1T = 21
         _3T = 64
     } else if (数値 == 2) {
-        周波数長 = 7
+        周波数2長 = 7
         ヘッダー1長 = 130
         ヘッダー2長 = 65
         _1T = 16
         _3T = 49
     } else {
-        周波数長 = 4
-        ヘッダー1長 = 96
-        ヘッダー2長 = 24
-        _1T = 24
-        _3T = 72
+        IRデータ数 = IRデータ数 - 1
+        周波数1長 = 5
+        周波数2長 = 4
+        ヘッダー1長 = 98
+        ヘッダー2長 = 26
+        _1T = 25
+        _3T = 49
     }
 }
 input.onButtonPressed(Button.B, function () {
+    basic.showArrow(ArrowNames.North)
     送信データ作成()
-    for (let index = 0; index < ヘッダー1長; index++) {
-        pins.digitalWritePin(DigitalPin.P14, 1)
-        for (let index = 0; index < 3; index++) {
-            値 = pins.digitalReadPin(DigitalPin.P0)
+    for (let index = 0; index < パルスくり返し回数; index++) {
+        for (let index = 0; index < ヘッダー1長; index++) {
+            pins.digitalWritePin(DigitalPin.P14, 1)
+            for (let index = 0; index < 周波数1長; index++) {
+                値 = pins.digitalReadPin(DigitalPin.P0)
+            }
+            pins.digitalWritePin(DigitalPin.P14, 0)
+            for (let index = 0; index < 周波数2長; index++) {
+                値 = pins.digitalReadPin(DigitalPin.P0)
+            }
         }
-        pins.digitalWritePin(DigitalPin.P14, 0)
-        for (let index = 0; index < 周波数長; index++) {
-            値 = pins.digitalReadPin(DigitalPin.P0)
+        for (let index = 0; index < ヘッダー2長; index++) {
+            pins.digitalWritePin(DigitalPin.P14, 0)
+            for (let index = 0; index < 周波数1長; index++) {
+                値 = pins.digitalReadPin(DigitalPin.P0)
+            }
+            pins.digitalWritePin(DigitalPin.P14, 0)
+            for (let index = 0; index < 周波数2長; index++) {
+                値 = pins.digitalReadPin(DigitalPin.P0)
+            }
         }
+        if (IRモード <= 2) {
+            for (let カウンター = 0; カウンター <= IRデータ数; カウンター++) {
+                for (let index = 0; index < _1T; index++) {
+                    pins.digitalWritePin(DigitalPin.P14, 1)
+                    for (let index = 0; index < 周波数1長; index++) {
+                        値 = pins.digitalReadPin(DigitalPin.P0)
+                    }
+                    pins.digitalWritePin(DigitalPin.P14, 0)
+                    for (let index = 0; index < 周波数2長; index++) {
+                        値 = pins.digitalReadPin(DigitalPin.P0)
+                    }
+                }
+                for (let index = 0; index < 送信データ[カウンター]; index++) {
+                    pins.digitalWritePin(DigitalPin.P14, 0)
+                    for (let index = 0; index < 周波数1長; index++) {
+                        値 = pins.digitalReadPin(DigitalPin.P0)
+                    }
+                    pins.digitalWritePin(DigitalPin.P14, 0)
+                    for (let index = 0; index < 周波数2長; index++) {
+                        値 = pins.digitalReadPin(DigitalPin.P0)
+                    }
+                }
+            }
+        } else {
+            for (let カウンター = 0; カウンター <= IRデータ数; カウンター++) {
+                for (let index = 0; index < 送信データ[カウンター]; index++) {
+                    pins.digitalWritePin(DigitalPin.P14, 1)
+                    for (let index = 0; index < 周波数1長; index++) {
+                        値 = pins.digitalReadPin(DigitalPin.P0)
+                    }
+                    pins.digitalWritePin(DigitalPin.P14, 0)
+                    for (let index = 0; index < 周波数2長; index++) {
+                        値 = pins.digitalReadPin(DigitalPin.P0)
+                    }
+                }
+                for (let index = 0; index < _1T; index++) {
+                    pins.digitalWritePin(DigitalPin.P14, 0)
+                    for (let index = 0; index < 周波数1長; index++) {
+                        値 = pins.digitalReadPin(DigitalPin.P0)
+                    }
+                    pins.digitalWritePin(DigitalPin.P14, 0)
+                    for (let index = 0; index < 周波数2長; index++) {
+                        値 = pins.digitalReadPin(DigitalPin.P0)
+                    }
+                }
+            }
+        }
+        basic.pause(パルス間空き時間)
     }
-    for (let index = 0; index < ヘッダー2長; index++) {
-        pins.digitalWritePin(DigitalPin.P14, 0)
-        for (let index = 0; index < 3; index++) {
-            値 = pins.digitalReadPin(DigitalPin.P0)
-        }
-        pins.digitalWritePin(DigitalPin.P14, 0)
-        for (let index = 0; index < 周波数長; index++) {
-            値 = pins.digitalReadPin(DigitalPin.P0)
-        }
-    }
-    if (IRモード <= 2) {
-        for (let カウンター = 0; カウンター <= IRデータ数; カウンター++) {
-            for (let index = 0; index < _1T; index++) {
-                pins.digitalWritePin(DigitalPin.P14, 1)
-                for (let index = 0; index < 3; index++) {
-                    値 = pins.digitalReadPin(DigitalPin.P0)
-                }
-                pins.digitalWritePin(DigitalPin.P14, 0)
-                for (let index = 0; index < 周波数長; index++) {
-                    値 = pins.digitalReadPin(DigitalPin.P0)
-                }
-            }
-            for (let index = 0; index < 送信データ[カウンター]; index++) {
-                pins.digitalWritePin(DigitalPin.P14, 0)
-                for (let index = 0; index < 3; index++) {
-                    値 = pins.digitalReadPin(DigitalPin.P0)
-                }
-                pins.digitalWritePin(DigitalPin.P14, 0)
-                for (let index = 0; index < 周波数長; index++) {
-                    値 = pins.digitalReadPin(DigitalPin.P0)
-                }
-            }
-        }
-    } else {
-        for (let カウンター = 0; カウンター <= IRデータ数; カウンター++) {
-            for (let index = 0; index < 送信データ[カウンター]; index++) {
-                pins.digitalWritePin(DigitalPin.P14, 1)
-                for (let index = 0; index < 3; index++) {
-                    値 = pins.digitalReadPin(DigitalPin.P0)
-                }
-                pins.digitalWritePin(DigitalPin.P14, 0)
-                for (let index = 0; index < 周波数長; index++) {
-                    値 = pins.digitalReadPin(DigitalPin.P0)
-                }
-            }
-            for (let index = 0; index < _1T; index++) {
-                pins.digitalWritePin(DigitalPin.P14, 0)
-                for (let index = 0; index < 3; index++) {
-                    値 = pins.digitalReadPin(DigitalPin.P0)
-                }
-                pins.digitalWritePin(DigitalPin.P14, 0)
-                for (let index = 0; index < 周波数長; index++) {
-                    値 = pins.digitalReadPin(DigitalPin.P0)
-                }
-            }
-        }
-    }
-    basic.pause(100)
+    basic.clearScreen()
 })
 function 送信データ作成 () {
     送信データ = []
@@ -160,11 +166,14 @@ function 送信データ作成 () {
  * 
  * ループ回数12＝28us、36KHz
  */
+let 周波数1長 = 0
 let _3T = 0
 let _1T = 0
 let ヘッダー2長 = 0
 let ヘッダー1長 = 0
-let 周波数長 = 0
+let 周波数2長 = 0
+let パルス間空き時間 = 0
+let パルスくり返し回数 = 0
 let IRモード = 0
 let 送信データ: number[] = []
 let IRデータ数 = 0
@@ -175,14 +184,15 @@ basic.showIcon(IconNames.Square)
 pins.digitalWritePin(DigitalPin.P14, 0)
 IRデータ = [
 "A",
-"2",
-"3",
-"D",
-"4",
 "8",
 "B",
-"7"
+"4",
+"F",
+"0"
 ]
-IRデータ数 = 32
+IRデータ数 = 20
 送信データ = []
-IRモード = 1
+IRモード = 3
+パルスくり返し回数 = 5
+パルス間空き時間 = 12
+モード設定(IRモード)
