@@ -21,16 +21,38 @@ function モード設定 (数値: number) {
         _3T = 49
     }
 }
+bluetooth.onBluetoothConnected(function () {
+    basic.showIcon(IconNames.Yes)
+})
+bluetooth.onBluetoothDisconnected(function () {
+    basic.showIcon(IconNames.No)
+})
+bluetooth.onUartDataReceived(serial.delimiters(Delimiters.Fullstop), function () {
+    受信データ = bluetooth.uartReadUntil(serial.delimiters(Delimiters.Fullstop))
+    if (受信データ.length > 6) {
+        IRモード = parseFloat(受信データ.charAt(0))
+        IRデータ数 = parseFloat(受信データ.substr(1, 2))
+        パルスくり返し回数 = parseFloat(受信データ.charAt(3))
+        パルス間空き時間 = parseFloat(受信データ.substr(4, 2))
+        IRデータ = []
+        for (let カウンター = 0; カウンター <= 受信データ.length - 6; カウンター++) {
+            IRデータ.push(受信データ.charAt(カウンター + 6))
+        }
+        モード設定(IRモード)
+        basic.showIcon(IconNames.Happy)
+        basic.clearScreen()
+    }
+})
 input.onButtonPressed(Button.B, function () {
     basic.showArrow(ArrowNames.North)
     送信データ作成()
     for (let index = 0; index < パルスくり返し回数; index++) {
         for (let index = 0; index < ヘッダー1長; index++) {
-            pins.digitalWritePin(DigitalPin.P14, 1)
+            pins.digitalWritePin(DigitalPin.P14, LEDオン)
             for (let index = 0; index < 周波数1長; index++) {
                 値 = pins.digitalReadPin(DigitalPin.P0)
             }
-            pins.digitalWritePin(DigitalPin.P14, 0)
+            pins.digitalWritePin(DigitalPin.P14, LEDオフ)
             for (let index = 0; index < 周波数2長; index++) {
                 値 = pins.digitalReadPin(DigitalPin.P0)
             }
@@ -48,11 +70,11 @@ input.onButtonPressed(Button.B, function () {
         if (IRモード <= 2) {
             for (let カウンター = 0; カウンター <= IRデータ数; カウンター++) {
                 for (let index = 0; index < _1T; index++) {
-                    pins.digitalWritePin(DigitalPin.P14, 1)
+                    pins.digitalWritePin(DigitalPin.P14, LEDオン)
                     for (let index = 0; index < 周波数1長; index++) {
                         値 = pins.digitalReadPin(DigitalPin.P0)
                     }
-                    pins.digitalWritePin(DigitalPin.P14, 0)
+                    pins.digitalWritePin(DigitalPin.P14, LEDオフ)
                     for (let index = 0; index < 周波数2長; index++) {
                         値 = pins.digitalReadPin(DigitalPin.P0)
                     }
@@ -71,11 +93,11 @@ input.onButtonPressed(Button.B, function () {
         } else {
             for (let カウンター = 0; カウンター <= IRデータ数; カウンター++) {
                 for (let index = 0; index < 送信データ[カウンター]; index++) {
-                    pins.digitalWritePin(DigitalPin.P14, 1)
+                    pins.digitalWritePin(DigitalPin.P14, LEDオン)
                     for (let index = 0; index < 周波数1長; index++) {
                         値 = pins.digitalReadPin(DigitalPin.P0)
                     }
-                    pins.digitalWritePin(DigitalPin.P14, 0)
+                    pins.digitalWritePin(DigitalPin.P14, LEDオフ)
                     for (let index = 0; index < 周波数2長; index++) {
                         値 = pins.digitalReadPin(DigitalPin.P0)
                     }
@@ -166,6 +188,7 @@ function 送信データ作成 () {
  * 
  * ループ回数12＝28us、36KHz
  */
+let 受信データ = ""
 let 周波数1長 = 0
 let _3T = 0
 let _1T = 0
@@ -179,17 +202,14 @@ let 送信データ: number[] = []
 let IRデータ数 = 0
 let IRデータ: string[] = []
 let 値 = 0
+let LEDオフ = 0
+let LEDオン = 0
 basic.showIcon(IconNames.Square)
+LEDオン = 1
+LEDオフ = 0
 値 = 0
 pins.digitalWritePin(DigitalPin.P14, 0)
-IRデータ = [
-"A",
-"8",
-"B",
-"4",
-"F",
-"0"
-]
+IRデータ = []
 IRデータ数 = 20
 送信データ = []
 IRモード = 3
